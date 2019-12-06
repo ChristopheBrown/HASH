@@ -1,4 +1,5 @@
 import helper
+import helper_gpu
 
 
 class SHA256:
