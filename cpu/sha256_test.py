@@ -103,10 +103,10 @@ class MyTestCase(unittest.TestCase):
         byte1 = '10101010'
         byte2 = '10010010'
         _xor = logic.xor_binary_strings(byte1, byte2)[2:]
-        _xor = helper.Helper.add_leading_zeros(None, _xor)
+        _xor = helper.Helper.add_leading_zeros(helper.Helper(), _xor)
 
         _and = logic.and_binary_strings(byte1, byte2)[2:]
-        _and = helper.Helper.add_leading_zeros(None, _and)
+        _and = helper.Helper.add_leading_zeros(helper.Helper(), _and)
 
         _not = logic.not_binary_string(byte1)[2:]
 

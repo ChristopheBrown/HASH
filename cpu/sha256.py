@@ -37,4 +37,5 @@ if __name__ == '__main__':
 
     s = SHA256(message)
     s.preprocess()
-    print(f'input message is: {message} \ndigest (SHA-256) is: {s.digest()}')
+    # ensure your version of python supports the statement below
+    #print(f'input message is: {message} \ndigest (SHA-256) is: {s.digest()}')
