@@ -1,3 +1,12 @@
+"""
+The helper.py file is the implementation of the algoirthm that can be found
+on the wikipedia article here: https://en.wikipedia.org/wiki/SHA-2#Pseudocode
+
+You will find similar naming schemes used from the wiki
+
+(c) Christophe Brown 2019
+
+"""
 import logic
 
 
@@ -36,14 +45,13 @@ class Helper:
             self.h.append(self.extend_to_32_bit(bin(self.h_init[i])[2:]))
 
     def add_leading_zeros(self, val):
-        zeros = 8 - (len(val))
-
-        if zeros < 0:
-            zeros = 8 - len(val) % 8
-        if zeros == 0:
+        zeros_to_add = 8 - (len(val))
+        if zeros_to_add < 0:
+            zeros_to_add = 8 - len(val) % 8
+        if zeros_to_add == 0:
             return val
 
-        val = zeros * '0' + val
+        val = zeros_to_add * '0' + val
         return val
 
     def extend_to_32_bit(self, val):
@@ -98,8 +106,6 @@ class Helper:
 
     def break_message_into_chunks(self):
         chunk_count = int(self.get_msg_length() / 512)
-        # print(f'"{self.msg}" has {chunk_count} chunk(s)')
-        # print(f'before filling chunks, found {len(self.chunks)} chunks in self.chunks')
 
         for i in range(chunk_count):
             self.chunks.append(self.binary_msg_with_padding_and_length[(i*512):((i+1)*512)])
@@ -112,14 +118,11 @@ class Helper:
             chunk = self.binary_msg_with_padding_and_length[0:512]
         else:
             chunk = new_chunk
-        # print(f'the message is: {self.msg}')
-        # print(f'message length is: {self.get_msg_length()}')
-        # print(hex(logic.binary_string_to_binary_int(chunk)))
+
+
         for i in range(16):  # 16 = 512-bit chunk / 32-word segments
             self.w[i] = (chunk[(i*32):((i+1)*32)])
-            # print(f'i = {i}, assigned {hex(logic.binary_string_to_binary_int(self.w[i]))}')
-            # if i == (16 - 2):
-                # print(f'i = {i}, assigned {hex(logic.binary_string_to_binary_int(self.w[i]))}')
+
 
     def extend_words(self):
         for i in range(16, 64):  # now extend the rest of w[]
@@ -129,12 +132,6 @@ class Helper:
             s0_xor1 = logic.xor_binary_strings(s0_p1, s0_p2)[2:]
             s0 = logic.xor_binary_strings(s0_xor1, s0_p3)
             s0 = self.extend_to_32_bit(s0)
-            # if i == 16:
-            #     print(f's0_p1 = {s0_p1}')
-            #     print(f's0_p2 = {s0_p2}')
-            #     print(f's0_p3 = {s0_p3}')
-            #     print(f's0_xor1 = {s0_xor1}')
-            #     print(f's0 = {s0}')
 
             s1_p1 = logic.rotate_bits(self.w[i-2], 17)
             s1_p2 = logic.rotate_bits(self.w[i-2], 19)
@@ -142,37 +139,21 @@ class Helper:
             s1_xor1 = logic.xor_binary_strings(s1_p1, s1_p2)[2:]
             s1 = logic.xor_binary_strings(s1_xor1, s1_p3)
             s1 = self.extend_to_32_bit(s1)
-            # if i == 16 and len(self.msg) > 3:
-            #     print(f'i = {i}')
-            #     print(f'w[i-2] = {self.w[i-2]}')
-            #     print(f's1_p1 = {s1_p1}')
-            #     print(f's1_p2 = {s1_p2}')
-            #     print(f's1_p3 = {s1_p3}')
-            #     print(f's1_xor1 = {s1_xor1}')
-            #     print(f's1 = {s1}')
 
             add1 = logic.add_binary_strings(self.w[i-16], s0)
             add1 = self.extend_to_32_bit(add1)
-            # if i == 16 and len(self.msg) > 3:
-            #     print(f'add1 = {add1}')
 
             add2 = logic.add_binary_strings(self.w[i-7], s1)
             add2 = self.extend_to_32_bit(add2)
-            # if i == 16 and len(self.msg) > 3:
-            #     print(f'add2 = {add2}')
+
 
             w_i_no_padding = logic.add_binary_strings(add1, add2)
             w_i_no_padding = self.extend_to_32_bit(w_i_no_padding)
-            # if i == 16 and len(self.msg) > 3:
-            #     print(f'w_i_no_padding = {w_i_no_padding}')
+
 
             # truncate overflow bits - cap at 32 bits
             w_i = logic.and_binary_strings(w_i_no_padding, '11111111111111111111111111111111')[2:]
             w_i = self.extend_to_32_bit(w_i)
-            # if i == 16 and len(self.msg) > 3:
-            #     print(f'w_i = {w_i}')
-
-            # print(f'i = {i}, w_i = {logic.binary_string_to_binary_int(w_i)}, length {len(w_i)}')
 
             self.w[i] = w_i
 
@@ -252,36 +233,6 @@ class Helper:
             a = logic.and_binary_strings(logic.add_binary_strings(_temp1, _temp2)[2:], '11111111111111111111111111111111')[2:]
             a = self.extend_to_32_bit(a)
 
-            if i == 0:
-                # print(f'w[{i}] = {hex(logic.binary_string_to_binary_int(self.w[i]))}')
-                # print(f'k[{i}] = {hex(self.k[i])}')
-
-                # print(f'a = {hex(logic.binary_string_to_binary_int(a))}')
-                # print(f'b = {hex(logic.binary_string_to_binary_int(b))}')
-                # print(f'c = {hex(logic.binary_string_to_binary_int(c))}')
-                # print(f'd = {hex(logic.binary_string_to_binary_int(d))}')
-                # print(f'e = {hex(logic.binary_string_to_binary_int(e))}')
-                # print(f'f = {hex(logic.binary_string_to_binary_int(f))}')
-                # print(f'g = {hex(logic.binary_string_to_binary_int(g))}')
-                # print(f'h = {hex(logic.binary_string_to_binary_int(h))}')
-
-                # print(f'a = {len((a))}')
-                # print(f'b = {len((b))}')
-                # print(f'c = {len((c))}')
-                # print(f'd = {len((d))}')
-                # print(f'e = {len((e))}')
-                # print(f'f = {len((f))}')
-                # print(f'g = {len((g))}')
-                # print(f'h = {len((h))}')
-
-                # print(f'S0 = {_S0}')
-                # print(f'S1 = {_S1}')
-                # print(f'ch = {_ch}')
-                # print(f'maj = {_maj}')
-                # print(f'temp1 = {_temp1}')
-                # print(f'temp2 = {_temp2}')
-                pass
-
         self.h[0] = logic.and_binary_strings(logic.add_binary_strings(self.h[0], a)[2:],
                                              '11111111111111111111111111111111')[2:]
         self.h[0] = self.extend_to_32_bit(self.h[0])
@@ -314,19 +265,6 @@ class Helper:
                                              '11111111111111111111111111111111')[2:]
         self.h[7] = self.extend_to_32_bit(self.h[7])
 
-        # print(f'h0 = {hex(logic.binary_string_to_binary_int(self.h[0]))}')
-        # print(f'h1 = {hex(logic.binary_string_to_binary_int(self.h[1]))}')
-        # print(f'h2 = {hex(logic.binary_string_to_binary_int(self.h[2]))}')
-        # print(f'h3 = {hex(logic.binary_string_to_binary_int(self.h[3]))}')
-        # print(f'h4 = {hex(logic.binary_string_to_binary_int(self.h[4]))}')
-        # print(f'h5 = {hex(logic.binary_string_to_binary_int(self.h[5]))}')
-        # print(f'h6 = {hex(logic.binary_string_to_binary_int(self.h[6]))}')
-        # print(f'h7 = {hex(logic.binary_string_to_binary_int(self.h[7]))}')
-        # i = 0
-        # for h in self.h:
-        #     print(f'appending h[{i}] with length {len(str(hex(logic.binary_string_to_binary_int(h)))[2:])}')
-        #     i+=1
-
 
     def digest(self):
         # print(f'found {len(self.chunks)} chunks in self.chunks')
@@ -342,6 +280,5 @@ class Helper:
                 if len(hex_h) < 8:
                     hex_h = self.add_leading_zeros(hex_h)
                 self.digest += hex_h
-            #print(f'intermediate digest (SHA-256) for chunk is: {self.digest}')
 
         return self.digest

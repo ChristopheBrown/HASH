@@ -36,8 +36,8 @@ class MyTestCase(unittest.TestCase):
 
     def test_add_padding(self):
         small = helper.Helper('a')
-        medium = helper.Helper('example'*10)
-        large = helper.Helper('this is a long string!'*100)
+        medium = helper.Helper('example' * 10)
+        large = helper.Helper('this is a long string!' * 100)
 
         small.convert_string_to_binary()
         small.add_padding()
@@ -134,23 +134,23 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(logic.binary_string_to_binary_int(short.w[58]), 2682456414)
 
     def test_compress(self):
-        # short = helper.Helper('abc')
-        # short.convert_string_to_binary()
-        # short.add_padding()
-        # short.break_message_into_chunks()
-        #
-        # short.copy_chunk_bits()
-        # short.extend_words()
-        # short.compress()
-        #
-        # self.assertEqual(short.h[0], '10111010011110000001011010111111')
-        # self.assertEqual(short.h[1], '10001111000000011100111111101010')
-        # self.assertEqual(short.h[2], '01000001010000010100000011011110')
-        # self.assertEqual(short.h[3], '01011101101011100010001000100011')
-        # self.assertEqual(short.h[4], '10110000000000110110000110100011')
-        # self.assertEqual(short.h[5], '10010110000101110111101010011100')
-        # self.assertEqual(short.h[6], '10110100000100001111111101100001')
-        # self.assertEqual(short.h[7], '11110010000000000001010110101101')
+        short = helper.Helper('abc')
+        short.convert_string_to_binary()
+        short.add_padding()
+        short.break_message_into_chunks()
+
+        short.copy_chunk_bits()
+        short.extend_words()
+        short.compress()
+
+        self.assertEqual(short.h[0], '10111010011110000001011010111111')
+        self.assertEqual(short.h[1], '10001111000000011100111111101010')
+        self.assertEqual(short.h[2], '01000001010000010100000011011110')
+        self.assertEqual(short.h[3], '01011101101011100010001000100011')
+        self.assertEqual(short.h[4], '10110000000000110110000110100011')
+        self.assertEqual(short.h[5], '10010110000101110111101010011100')
+        self.assertEqual(short.h[6], '10110100000100001111111101100001')
+        self.assertEqual(short.h[7], '11110010000000000001010110101101')
 
         long = helper.Helper('abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq')
         long.convert_string_to_binary()
