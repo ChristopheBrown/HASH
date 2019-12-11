@@ -60,15 +60,16 @@ class HelperGPU(helper.Helper):
             self.h.append(self.extend_to_32_bit(bin(self.h_init[i])[2:]))
             
         self.copy_kernel_code = '''
-__global__ void copy_chunks(char* chunk, char* chunk_segment) {
-    int tx = threadIdx.x;
-    int ty = threadIdx.y;
-    
-    int index_32_bits = 32 * ty + tx;
-    
-    chunk_segment[index_32_bits] = chunk[index_32_bits];    
-}     
-'''
+    __global__ void copy_chunks(char* chunk, char* chunk_segment) {
+        int tx = threadIdx.x;
+        int ty = threadIdx.y;
+        
+        int index_32_bits = 32 * ty + tx;
+        
+        chunk_segment[index_32_bits] = chunk[index_32_bits];    
+    } 
+       
+    '''
 
         self.extend_kernel_code = ''' 
 #include <stdio.h>   
