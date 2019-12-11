@@ -8,6 +8,7 @@ You will find similar naming schemes used from the wiki
 
 """
 import logic
+import time
 
 
 class Helper:
@@ -269,7 +270,12 @@ class Helper:
     def digest(self):
         # print(f'found {len(self.chunks)} chunks in self.chunks')
         for chunk in self.chunks:
+        
+            hash_pre = time.time()
             self.copy_chunk_bits(chunk)
+            hash_post = time.time()
+            self.timer = hash_post-hash_pre
+            
             self.extend_words()
             self.compress()
             self.digest = ''
