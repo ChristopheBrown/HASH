@@ -3,6 +3,7 @@
 HASH stands for Hardware Acceleration of Secure Hashing. This repo is an engineering study of SHA-256 algorithm parallelized using python and pyCUDA. 
 
 Github repository: https://github.com/ChristopheBrown/HASH
+Website: https://cb3534e4750hash.weebly.com/
 
 The cpu source code (developed with anaconda python 3.7) implementation adapts from the SHA-256 wikipedia artcile pseudocode here: https://en.wikipedia.org/wiki/SHA-2#Pseudocode
 
