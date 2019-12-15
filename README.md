@@ -16,7 +16,7 @@ To run:
 * Clone this repo
 * Open "gpu/sha256.py" and modify the "files" array in __main__ to run the code with whichever files you like. Large files will take longer
 * Run "python sha256.py"
-* Optional, modify the matplotlib code at the bottom to produce graphs.
+* Optional, modify the matplotlib code at the bottom to produce graphs. By default, the plot for the execution time of the copy phase will display. More details are in the included PDF.
 
 
 Useful links in making this:
